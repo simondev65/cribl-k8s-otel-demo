@@ -152,7 +152,7 @@ echo "Waiting for 'ngrok' deployment..."
 wait_for_deployment ngrok-ingress-controller ngrok-operator-agent 900
 #Apply the ngrok manifest
 # Set default NGROK_HOST if not provided
-export NGROK_HOST=${NGROK_HOST:-arturo-germicidal-rivka.ngrok-free.dev}
+export NGROK_HOST=${NGROK_HOST:arturo-germicidal-rivka.ngrok-free.dev}
 envsubst < ngrok/ngrok-manifest.yaml | kubectl apply -f -
 echo "All deployments are ready!"
 
