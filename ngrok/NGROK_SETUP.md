@@ -15,9 +15,11 @@ Once your account is set up, go to Cloud Edge > Domains in your Ngrok dashboard.
 Replace [AUTHTOKEN] and [API_KEY] with your Authtoken and API key.
 * Auth token: https://dashboard.ngrok.com/get-started/your-authtoken
 * API keys: https://dashboard.ngrok.com/api-keys
+* NGROK endpoint URL: https://dashboard.ngrok.com/endpoints
 ```bash
 export NGROK_AUTHTOKEN=[AUTHTOKEN]
 export NGROK_API_KEY=[API_KEY]
+export NGROK_HOST=abc.ngrok.com
 ```
 
 ## Install the ngrok Kubernetes Operator
@@ -29,9 +31,7 @@ helm install ngrok-operator ngrok/ngrok-operator \
   --set credentials.authtoken=$NGROK_AUTHTOKEN
 ```
 
-## Update the domain name in `ngrok/ngrok-manifest.yaml`
-Mine looks like the following, yours will be different. So, configure it in Ngrok and update the manifest.
-![image](../images/ngrok-endpoint.png)
+
 
 ## Apply the manifest file to your k8s cluster.
 ```
