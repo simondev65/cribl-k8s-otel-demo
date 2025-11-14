@@ -8,7 +8,7 @@ spec:
   ingressClassName: ngrok
   rules:
       # Update the URL to match the one provided by ngrok
-    - host: silkworm-shining-instantly.ngrok-free.app
+    - host: ${NGROK_HOST}
       http:
         paths:
           - path: /

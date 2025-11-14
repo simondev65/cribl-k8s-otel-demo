@@ -151,7 +151,9 @@ wait_for_deployment otel-demo opentelemetry-demo-kafka 900
 echo "Waiting for 'ngrok' deployment..."
 wait_for_deployment ngrok-ingress-controller ngrok-operator-agent 900
 #Apply the ngrok manifest
-kubectl apply -f ngrok/ngrok-manifest.yaml
+# Set default NGROK_HOST if not provided
+export NGROK_HOST=${NGROK_HOST:-arturo-germicidal-rivka.ngrok-free.dev}
+envsubst < ngrok/ngrok-manifest.yaml | kubectl apply -f -
 echo "All deployments are ready!"
 
 
