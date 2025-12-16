@@ -205,37 +205,37 @@ resource "criblio_pipeline" "metrics_to_elastic_pipeline" {
             {
                id = "comment"
                filter = "true"
-               conf = {
-                    comment = jsonencode("Invoke the OTel to metrics pack")
-               } 
+               conf = jsonencode({
+                    comment = "Invoke the OTel to metrics pack"
+               }) 
             },
             {
                 id = "chain"
                 filter = "true"
-                conf = {
-                    processor = jsonencode("pack:cribl-opentelemetry-pack")
-                }
+                conf = jsonencode({
+                    processor = "pack:cribl-opentelemetry-pack"
+                })
                 description = "Invoke the Cribl OpenTelemetry pack"
             },            
             {
                id = "comment"
                filter = "true"
-               conf = {
-                    comment = jsonencode("Reduce the granularity of metrics by aggregating them")
-               } 
+               conf =jsonencode({
+                    comment = "Reduce the granularity of metrics by aggregating them"
+               }) 
             },
             {
                 id = "aggregation"
                 filter = "true"
-                conf = {
+                conf = jsonencode({
                     passthrough = false
                     preserveGroupBys = false
                     sufficientStatsOnly = false
                     metricsMode = true
-                    timeWindow = jsonencode("60s")
+                    timeWindow = "60s"
                     cumulative = false
                     flushOnInputClose = true                    
-                    aggregations = jsonencode([
+                    aggregations = [
                         "sum(duration).as(duration)",
                         "sum(http_2xx).as(http_2xx)",
                         "sum(http_3xx).as(http_3xx)",
@@ -247,36 +247,36 @@ resource "criblio_pipeline" "metrics_to_elastic_pipeline" {
                         "sum(requests_error).as(requests_error)",
                         "sum(requests_total).as(requests_total)",
                         "max(start_time_unix_nano).as(max_starttime)"
-                    ])
-                    groupbys = jsonencode([
+                    ]
+                    groupbys = [
                         "service",
                         "resource_url",
                         "status_code"
-                    ])
-                }
+                    ]
+                })
                 description = "Aggregate metrics before sending them"
             },
             {
                id = "comment"
                filter = "true"
-               conf = {
-                    comment = jsonencode("Fix the timestamp to max_time of the aggregated spans")
-               } 
+               conf = jsonencode({
+                    comment = "Fix the timestamp to max_time of the aggregated spans"
+               }) 
             },
             {
                 id = "auto_timestamp"
                 filter = "true"
-                conf = {
-                    srcField = jsonencode("max_starttime")
-                    dstField = jsonencode("_time")
-                    defaultTimezone = jsonencode("UTC")
-                    timeExpression = jsonencode("time.getTime() / 1000")
+                conf = jsonencode({
+                    srcField = "max_starttime"
+                    dstField = "_time"
+                    defaultTimezone = "UTC"
+                    timeExpression = "time.getTime() / 1000"
                     offset = 0
                     maxLen = 150
-                    defaultTime = jsonencode("now")
-                    latestDateAllowed = jsonencode("+1week")
-                    earliestDateAllowed = jsonencode("-420weeks")
-                }
+                    defaultTime = "now"
+                    latestDateAllowed = "+1week"
+                    earliestDateAllowed = "-420weeks"
+                })
             }
         ]
     }
